@@ -2,10 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/future/image';
 import { urlFor } from '../../sanity';
-import { Post } from '../lib/types/sanity';
+
+import { ExtendedPost } from '../lib/types/Post';
 
 interface IProps {
-  posts: Post[];
+  posts: Omit<ExtendedPost, 'products' | 'author' | 'categories'>[];
 }
 
 const Posts: React.FunctionComponent<IProps> = ({ posts }) => {
@@ -20,9 +21,11 @@ const Posts: React.FunctionComponent<IProps> = ({ posts }) => {
                 <Image
                   height={1000}
                   width={1000}
-                  className='h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
+                  className='aspect-video w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
                   src={urlFor(post.mainImage).url()!}
                   alt=''
+                  placeholder='blur'
+                  blurDataURL={post.mainImage.asset.metadata.lqip}
                 />
                 <div className='flex justify-between p-5'>
                   <div>
@@ -34,7 +37,7 @@ const Posts: React.FunctionComponent<IProps> = ({ posts }) => {
             </Link>
           );
         })}
-      </div>{' '}
+      </div>
     </section>
   );
 };

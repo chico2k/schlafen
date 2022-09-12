@@ -51,8 +51,12 @@ export default {
     {
       name: 'author',
       title: 'Author',
+      codegen: { required: true },
       type: 'reference',
       to: { type: 'author' },
+      validation: (Rule) => [
+        Rule.required().max(200).error('A Author is required'),
+      ],
     },
     {
       name: 'mainImage',

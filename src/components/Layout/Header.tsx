@@ -72,7 +72,6 @@ const Header = () => {
                               `/api/search/?q=${e.target.value}`
                             );
                             const result = await response.json();
-                            console.log(result);
                             setResults(result.result as any[]);
                           }}
                         />
@@ -82,7 +81,7 @@ const Header = () => {
                               {results.map((r) => {
                                 return (
                                   <div className='px-2 py-1 hover:bg-red-300 currsor-pointer'>
-                                    {r._type} - {r.title}       
+                                    {r._type} - {r.title}
                                   </div>
                                 );
                               })}

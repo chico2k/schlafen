@@ -2,9 +2,10 @@ import { Product } from '../lib/types/sanity';
 import Link from 'next/link';
 import Image from 'next/future/image';
 import { urlFor } from '../../sanity';
+import { ExtendedProduct } from '../lib/types/Products';
 
 interface IProps {
-  products: Product[];
+  products: ExtendedProduct[];
 }
 
 const Products: React.FunctionComponent<IProps> = ({ products }) => {

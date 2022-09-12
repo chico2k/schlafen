@@ -70,7 +70,7 @@ export interface Post extends SanityDocument {
    *
    *
    */
-  author?: SanityReference<Author>;
+  author: SanityReference<Author>;
 
   /**
    * Main image — `image`
@@ -147,14 +147,14 @@ export interface Author extends SanityDocument {
    *
    *
    */
-  name?: string;
+  name: string;
 
   /**
    * Slug — `slug`
    *
    *
    */
-  slug?: { _type: "slug"; current: string };
+  slug: { _type: "slug"; current: string };
 }
 
 /**
