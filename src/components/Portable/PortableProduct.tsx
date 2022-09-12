@@ -1,5 +1,5 @@
 import Image from 'next/future/image';
-import { urlFor } from '../../sanity';
+import { urlFor } from '../../../sanity';
 
 const PortableProduct = (props: IProps) => {
   const {

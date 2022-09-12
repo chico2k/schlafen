@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 import Header from '../components/Layout/Header';
-import { sanityClient } from '../sanity';
+import { sanityClient } from '../../sanity';
 
 import Categories from '../components/Categories';
 import { Category, Post, Product } from '../lib';

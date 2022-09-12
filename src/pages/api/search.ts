@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { sanityClient } from '../../sanity';
+import { sanityClient } from '../../../sanity';
 
 const groqQuery = `*[_type == "post" || _type == "product" || _type == "category"]
 | score(

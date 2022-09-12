@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next';
 import PortableText from 'react-portable-text';
 import Header from '../../components/Layout/Header';
-import { sanityClient, urlFor } from '../../sanity';
-import { Post } from '../../typings';
+import { sanityClient, urlFor } from '../../../sanity';
+import { Post } from '../../../typings';
 import NextLink from 'next/link';
 import Image from 'next/future/image';
 import PortablePost from '../../components/Portable/PortablePost';

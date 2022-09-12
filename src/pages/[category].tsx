@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from 'next';
 import { Category } from '../lib';
-import { sanityClient } from '../sanity';
+import { sanityClient } from '../../sanity';
 
 const CategoryPage: NextPage<{ category: Category }> = ({ category }) => {
   return <pre>{JSON.stringify(category, null, 2)}</pre>;

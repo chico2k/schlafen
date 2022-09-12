@@ -1,7 +1,7 @@
 import { Product } from '../lib';
 import Link from 'next/link';
 import Image from 'next/future/image';
-import { urlFor } from '../sanity';
+import { urlFor } from '../../sanity';
 
 interface IProps {
   products: Product[];
