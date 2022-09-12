@@ -28,7 +28,7 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
                 />
                 <div className='flex flex-col p-5 justify-between '>
                   <p className='text-xs h-24 overflow-hidden'>
-                    <span className=''> {product.name}</span>
+                    <span className=''> {product.title}</span>
                   </p>
                   <div className='mt-1'>
                     <button
