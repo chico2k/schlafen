@@ -27,7 +27,7 @@ const Post = ({ post }: Props) => {
           width={2000}
           height={3000}
           className='w-full h-56 object-cover max-w-3xl'
-          src={urlFor(post.mainImage).url()!}
+          src={urlFor(post.mainImage).format('webp').url()!}
           alt=''
           blurDataURL={post.mainImage.asset.metadata.lqip}
           placeholder='blur'

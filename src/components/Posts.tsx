@@ -22,7 +22,7 @@ const Posts: React.FunctionComponent<IProps> = ({ posts }) => {
                   height={1000}
                   width={1000}
                   className='aspect-video w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
-                  src={urlFor(post.mainImage).url()!}
+                  src={urlFor(post.mainImage).format('webp').url()!}
                   alt=''
                   placeholder='blur'
                   blurDataURL={post.mainImage.asset.metadata.lqip}

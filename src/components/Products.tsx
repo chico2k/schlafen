@@ -18,9 +18,9 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
             <Link
               href={
                 '/redirect' +
-                  `?url=${product.link.href}&image=${urlFor(
-                    product.mainImage
-                  ).url()!}&title=${product.title}` || '/'
+                  `?url=${product.link.href}&image=${urlFor(product.mainImage)
+                    .format('webp')
+                    .url()!}&title=${product.title}` || '/'
               }
               key={product._id}
             >
@@ -32,7 +32,7 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
                   height={1000}
                   width={1000}
                   className='h-24 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
-                  src={urlFor(product.mainImage).url()!}
+                  src={urlFor(product.mainImage).format('webp').url()!}
                   alt=''
                 />
                 <div className='flex flex-col p-5 justify-between '>
