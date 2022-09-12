@@ -1,4 +1,4 @@
-import { Product } from '../lib';
+import { Product } from '../lib/types/sanity';
 import Link from 'next/link';
 import Image from 'next/future/image';
 import { urlFor } from '../../sanity';
@@ -8,7 +8,6 @@ interface IProps {
 }
 
 const Products: React.FunctionComponent<IProps> = ({ products }) => {
-  console.log('products', products);
   return (
     <section className='mt-16'>
       <h2 className='text-teal-600 mb-6 text-4xl'>Produkte</h2>
@@ -23,12 +22,12 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
                 <Image
                   height={1000}
                   width={1000}
-                  className='h-36 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
+                  className='h-24 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
                   src={urlFor(product.mainImage).url()!}
                   alt=''
                 />
                 <div className='flex flex-col p-5 justify-between '>
-                  <p className='text-xs h-24 overflow-hidden'>
+                  <p className='text-xs h-12 overflow-hidden'>
                     <span className=''> {product.title}</span>
                   </p>
                   <div className='mt-1'>

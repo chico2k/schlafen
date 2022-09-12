@@ -18,6 +18,7 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      codegen: { required: true },
       validation: (Rule) => [Rule.required().error('A Slug is required')],
       options: {
         source: 'title',
@@ -33,6 +34,7 @@ export default {
       name: 'categories',
       title: 'Categories',
       type: 'array',
+      codegen: { required: true },
       of: [{ type: 'reference', to: { type: 'category' } }],
       validation: (Rule) => [Rule.required().error('A Category is required')],
     },
@@ -47,6 +49,7 @@ export default {
     {
       title: 'URL',
       name: 'link',
+      codegen: { required: true },
       validation: (Rule) => [Rule.required().error('A Url is required')],
       type: 'object',
       fields: [

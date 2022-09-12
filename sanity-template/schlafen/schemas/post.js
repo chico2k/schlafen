@@ -17,6 +17,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      codegen: { required: true },
       validation: (Rule) => [
         Rule.required()
           .max(100)
@@ -27,6 +28,7 @@ export default {
       name: 'shortDescription',
       title: 'Short Description',
       type: 'string',
+      codegen: { required: true },
       validation: (Rule) => [
         Rule.required()
           .max(200)
@@ -37,6 +39,10 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      codegen: { required: true },
+      validation: (Rule) => [
+        Rule.required().max(200).error('A Slug is required'),
+      ],
       options: {
         source: 'title',
         maxLength: 96,
@@ -85,11 +91,28 @@ export default {
       type: 'blockContent',
     },
 
-    { name: 'seoTitle', title: 'SEO title', type: 'string', group: 'seo' },
+    {
+      name: 'seoTitle',
+      title: 'SEO title',
+      type: 'string',
+      group: 'seo',
+      codegen: { required: true },
+      validation: (Rule) => [
+        Rule.required()
+          .max(200)
+          .error('A SEO Title of max. 100 characters is required'),
+      ],
+    },
     {
       name: 'seoKeywords',
       title: 'SEO Keywords',
-      type: 'string',
+      type: 'array',
+      codegen: { required: true },
+      of: [{ type: 'string' }],
+      validation: (Rule) => [
+        Rule.required().max(3).error('Max three key words'),
+      ],
+
       group: 'seo',
     },
   ],

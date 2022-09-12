@@ -3,9 +3,9 @@ import Head from 'next/head';
 import { sanityClient } from '../../sanity';
 
 import Categories from '../components/Categories';
-import { Category, Post, Product } from '../lib';
 import Products from '../components/Products';
 import Posts from '../components/Posts';
+import { Post, Product, Category } from '../lib/types/sanity';
 
 interface Props {
   posts: Post[];

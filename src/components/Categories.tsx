@@ -1,5 +1,5 @@
-import { Category } from '../lib';
 import NextLink from 'next/link';
+import { Category } from '../lib/types/sanity';
 
 const Categories: React.FunctionComponent<{ categories: Category[] }> = ({
   categories,

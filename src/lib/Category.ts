@@ -9,6 +9,12 @@ export interface Category {
         current: string;
     };
     title: string;
+    bannerImage: {
+        asset: {
+            url: string;
+        };
+    };
+    altText: string
 }
 
 
