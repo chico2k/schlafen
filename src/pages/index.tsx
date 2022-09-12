@@ -1,6 +1,5 @@
 import Head from 'next/head';
 
-import Header from '../components/Layout/Header';
 import { sanityClient } from '../../sanity';
 
 import Categories from '../components/Categories';

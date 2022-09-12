@@ -8,13 +8,14 @@ interface IProps {
 }
 
 const Products: React.FunctionComponent<IProps> = ({ products }) => {
+  console.log('products', products);
   return (
     <section className='mt-16'>
       <h2 className='text-teal-600 mb-6 text-4xl'>Produkte</h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-6 '>
         {products.map((product) => {
           return (
-            <Link href={product.link.href} key={product._id}>
+            <Link href={product.link.href || '/'} key={product._id}>
               <a
                 target='_blank'
                 className='group cursor-pointer overflow-hidden border rounded-lg'

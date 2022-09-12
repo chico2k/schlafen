@@ -47,6 +47,7 @@ export default {
     {
       title: 'URL',
       name: 'link',
+      validation: (Rule) => [Rule.required().error('A Url is required')],
       type: 'object',
       fields: [
         {
