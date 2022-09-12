@@ -14,7 +14,15 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-6 '>
         {products.map((product) => {
           return (
-            <Link href={product.link.href || '/'} key={product._id}>
+            <Link
+              href={
+                '/redirect' +
+                  `?url=${product.link.href}&image=${urlFor(
+                    product.mainImage
+                  ).url()!}&title=${product.title}` || '/'
+              }
+              key={product._id}
+            >
               <a
                 target='_blank'
                 className='group cursor-pointer overflow-hidden border rounded-lg'
@@ -43,9 +51,6 @@ const Products: React.FunctionComponent<IProps> = ({ products }) => {
             </Link>
           );
         })}
-      </div>
-      <div className='ml-4 text-xs mb-1 pr-2 pt-2 flex justify-end '>
-        Affliate Links / Werbung{' '}
       </div>
     </section>
   );
