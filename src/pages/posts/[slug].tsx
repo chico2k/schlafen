@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 import PortableText from 'react-portable-text';
-import { sanityClient, urlFor } from '../../../sanity';
+import { GetImage, sanityClient, urlFor } from '../../../sanity';
 import { Post } from '../../../typings';
 import NextLink from 'next/link';
 import Image from 'next/future/image';
@@ -16,6 +16,7 @@ interface Props {
 
 const Post = ({ post }: Props) => {
   const author = post.author as Author;
+  const imageProps = GetImage(post.mainImage);
   return (
     <>
       <Head>
@@ -23,15 +24,17 @@ const Post = ({ post }: Props) => {
       </Head>
 
       <div className='flex justify-center bg-gray-50'>
-        <Image
-          width={2000}
-          height={3000}
-          className='w-full h-56 object-cover max-w-3xl'
-          src={urlFor(post.mainImage).format('webp').url()!}
-          alt=''
-          blurDataURL={post.mainImage.asset.metadata.lqip}
-          placeholder='blur'
-        />
+        {imageProps && imageProps.src && (
+          <Image
+            width={2000}
+            height={3000}
+            className='w-full h-56 object-cover max-w-3xl'
+            src={imageProps?.src}
+            alt={post.mainImage.altText || `${post.title} Bild`}
+            blurDataURL={imageProps.blurDataURL}
+            placeholder='blur'
+          />
+        )}
       </div>
       <article className='max-w-3xl mx-auto p-5'>
         <h1 className='text-3xl font-bold my-5'>{post.title}</h1>

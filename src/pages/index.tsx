@@ -1,23 +1,21 @@
 import Head from 'next/head';
-
 import { sanityClient } from '../../sanity';
-
 import Categories from '../components/Categories';
 import Products from '../components/Products';
 import Posts from '../components/Posts';
-import { Post, Product, Category } from '../lib/types/sanity';
+import { Product, Category } from '../lib/types/sanity';
 import { ExtendedPost } from '../lib/types/Post';
-import { Image } from '../lib/types/Image';
 import { ExtendedProduct } from '../lib/types/Products';
 
+type PostResponse = Omit<ExtendedPost, 'products' | 'author'>[];
 interface Props {
-  posts: Array<ExtendedPost & { mainImage: Image }>;
+  posts: PostResponse;
   products: ExtendedProduct[];
   categories: Category[];
 }
 export default function Home({ posts, products, categories }: Props) {
   return (
-    <div className='max-w-4xl mx-auto'>
+    <div>
       <Head>
         <title>Schlafen ist wichtig</title>
         <link rel='icon' href='/favicon.ico' />
@@ -27,26 +25,26 @@ export default function Home({ posts, products, categories }: Props) {
       <Posts posts={posts} />
       <Categories categories={categories} />
       <Products products={products} />
+      <div className='mt-16'>
+        <Posts posts={posts} />
+      </div>
     </div>
   );
 }
 
-export type ExtendedPostData = Post & {
-  extraFields: { blur: string };
-};
-
 export async function getServerSideProps() {
   const query = `*[_type == 'post']{
     ...,
-    mainImage {
-        asset->
-      }
+    categories[]->,
     }`;
 
-  const queryProducts = `*[_type == 'product']`;
+  const queryProducts = `*[_type == 'product'] {
+    ...,
+    categories[]->
+  }`;
   const queryCatgories = `*[_type == 'category']`;
 
-  const posts = await sanityClient.fetch<ExtendedPostData[]>(query);
+  const posts = await sanityClient.fetch<PostResponse>(query);
   const products = await sanityClient.fetch<Product[]>(queryProducts);
 
   const categories = await sanityClient.fetch<Category[]>(queryCatgories);

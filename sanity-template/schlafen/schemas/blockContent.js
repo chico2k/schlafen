@@ -83,6 +83,17 @@ export default {
     {
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        {
+          title: 'Alternative Text',
+          name: 'altText',
+          type: 'string',
+          codegen: { required: true },
+          validation: (Rule) => [
+            Rule.required().error('Alternative image text is required'),
+          ],
+        },
+      ],
     },
   ],
 };

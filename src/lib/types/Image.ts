@@ -105,6 +105,7 @@ export interface Asset {
 export interface Image {
     _type: string;
     asset: Asset;
+    altText: string
 }
 
 

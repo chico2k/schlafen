@@ -25,9 +25,9 @@ export default {
       ],
     },
     {
-      name: 'shortDescription',
-      title: 'Short Description',
-      type: 'string',
+      name: 'description',
+      title: 'Description',
+      type: 'text',
       codegen: { required: true },
       validation: (Rule) => [
         Rule.required()
@@ -40,9 +40,7 @@ export default {
       title: 'Slug',
       type: 'slug',
       codegen: { required: true },
-      validation: (Rule) => [
-        Rule.required().max(200).error('A Slug is required'),
-      ],
+      validation: (Rule) => [Rule.required().error('A Slug is required')],
       options: {
         source: 'title',
         maxLength: 96,
@@ -54,17 +52,28 @@ export default {
       codegen: { required: true },
       type: 'reference',
       to: { type: 'author' },
-      validation: (Rule) => [
-        Rule.required().max(200).error('A Author is required'),
-      ],
+      validation: (Rule) => [Rule.required().error('A Author is required')],
     },
     {
       name: 'mainImage',
       title: 'Main image',
       type: 'image',
+      codegen: { required: true },
+      validation: (Rule) => [Rule.required().error('A Main Image is required')],
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          title: 'Alternative Text',
+          name: 'altText',
+          type: 'string',
+          codegen: { required: true },
+          validation: (Rule) => [
+            Rule.required().error('Alternative image text is required'),
+          ],
+        },
+      ],
     },
     {
       title: 'published',

@@ -45,6 +45,19 @@ export default {
       options: {
         hotspot: true,
       },
+      validation: (Rule) => [Rule.required().error('A main image is required')],
+      codegen: { required: true },
+      fields: [
+        {
+          title: 'Alternative Text',
+          name: 'altText',
+          type: 'string',
+          codegen: { required: true },
+          validation: (Rule) => [
+            Rule.required().error('Alternative image text is required'),
+          ],
+        },
+      ],
     },
     {
       title: 'URL',

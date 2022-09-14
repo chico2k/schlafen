@@ -1,3 +1,11 @@
+const colorOptions = [
+  { title: 'green', value: 'green' },
+  { title: 'blue', value: 'blue' },
+  { title: 'orange', value: 'orange' },
+  { title: 'purple', value: 'purple' },
+  { title: 'pink', value: 'pink' },
+];
+
 export default {
   name: 'category',
   title: 'Category',
@@ -20,9 +28,7 @@ export default {
       type: 'slug',
       codegen: { required: true },
       validation: (Rule) => [
-        Rule.required()
-          .max(100)
-          .error('A Slug of max. 100 characters is required'),
+        Rule.required().error('A Slug of max. 100 characters is required'),
       ],
       options: {
         source: 'title',
@@ -34,23 +40,38 @@ export default {
       title: 'Description',
       type: 'text',
     },
+
     {
-      name: 'altText',
-      validation: (Rule) => [
-        Rule.required().error('A text for the image is required'),
-      ],
-      codegen: { required: true },
-      title: 'Alt Text for Image',
-      type: 'string',
-    },
-    {
-      name: 'bannerImage',
-      title: 'Banner image',
+      name: 'mainImage',
+      title: 'Main image',
       type: 'image',
       codegen: { required: true },
       validation: (Rule) => [Rule.required().error('A Main Image is required')],
       options: {
         hotspot: true,
+      },
+      fields: [
+        {
+          title: 'Alternative Text',
+          name: 'altText',
+          type: 'string',
+          codegen: { required: true },
+          validation: (Rule) => [
+            Rule.required().error('Alternative image text is required'),
+          ],
+        },
+      ],
+    },
+    {
+      name: 'color',
+      title: 'Color for the homepage',
+      type: 'string',
+      codegen: { required: true },
+      validation: (Rule) => [
+        Rule.required().error('A color for the category is required'),
+      ],
+      options: {
+        list: [...colorOptions],
       },
     },
   ],

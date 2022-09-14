@@ -4,5 +4,4 @@ import { Category, Product, SanityImageAsset } from "./sanity";
 
 export type ExtendedProduct = Product & {
     categories: Category[],
-    mainImage: Image
 }

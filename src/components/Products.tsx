@@ -1,8 +1,11 @@
 import { Product } from '../lib/types/sanity';
 import Link from 'next/link';
-import Image from 'next/future/image';
-import { urlFor } from '../../sanity';
+import Image from 'next/image';
+import { GetImage, urlFor } from '../../sanity';
 import { ExtendedProduct } from '../lib/types/Products';
+import { CameraIcon } from '@heroicons/react/20/solid';
+import { cx } from '../lib/helper';
+import CategoryLabel from './CategoryLabel';
 
 interface IProps {
   products: ExtendedProduct[];
@@ -10,46 +13,68 @@ interface IProps {
 
 const Products: React.FunctionComponent<IProps> = ({ products }) => {
   return (
-    <section className='mt-16'>
+    <section className='container px-8 py-5 lg:py-8 mx-auto xl:px-5 max-w-screen-lg '>
       <h2 className='text-teal-600 mb-6 text-4xl'>Produkte</h2>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-6 '>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-16 '>
         {products.map((product) => {
+          const imageProps = GetImage(product.mainImage);
           return (
-            <Link
-              href={
-                '/redirect' +
-                  `?url=${product.link.href}&image=${urlFor(product.mainImage)
-                    .format('webp')
-                    .url()!}&title=${product.title}` || '/'
-              }
-              key={product._id}
-            >
-              <a
-                target='_blank'
-                className='group cursor-pointer overflow-hidden border rounded-lg'
+            <div className='cursor-pointer link-effect'>
+              <div
+                className={cx(
+                  'relative overflow-hidden transition-all rounded-md   hover:scale-105',
+                  // aspect === 'landscape' ? 'aspect-video' : 'aspect-square'
+                  'aspect-square'
+                )}
               >
-                <Image
-                  height={1000}
-                  width={1000}
-                  className='h-24 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
-                  src={urlFor(product.mainImage).format('webp').url()!}
-                  alt=''
-                />
-                <div className='flex flex-col p-5 justify-between '>
-                  <p className='text-xs h-12 overflow-hidden'>
+                <Link
+                  href={
+                    '/redirect' +
+                      `?url=${product.link.href}&image=${
+                        imageProps?.src as string
+                      }` || '/'
+                  }
+                >
+                  <a target='_blank'>
+                    {imageProps ? (
+                      <Image
+                        {...imageProps}
+                        loader={imageProps.loader}
+                        blurDataURL={imageProps.blurDataURL}
+                        alt={product.mainImage.altText || 'Thumbnail'}
+                        placeholder='blur'
+                        layout='fill'
+                        objectFit='contain'
+                        className='transition-all object-contain'
+                      />
+                    ) : (
+                      <span className='absolute w-16 h-16 text-gray-200 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'>
+                        <CameraIcon />
+                      </span>
+                    )}
+                  </a>
+                </Link>
+              </div>
+              <Link
+                href={
+                  '/redirect' +
+                    `?url=${product.link.href}&image=${
+                      imageProps?.src as string
+                    }` || '/'
+                }
+                key={product._id}
+              >
+                <a
+                  target='_blank'
+                  className='group cursor-pointer overflow-hidden rounded-lg'
+                >
+                  <CategoryLabel categories={product.categories} />
+                  <h2 className='mt-2 text-base  tracking-normal text-brand-primary dark:text-white'>
                     <span className=''> {product.title}</span>
-                  </p>
-                  <div className='mt-1'>
-                    <button
-                      type='button'
-                      className='items-center rounded border border-transparent bg-orange-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                    >
-                      More
-                    </button>
-                  </div>
-                </div>
-              </a>
-            </Link>
+                  </h2>
+                </a>
+              </Link>
+            </div>
           );
         })}
       </div>

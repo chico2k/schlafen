@@ -1,5 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
-import { sanityClient, urlFor } from '../../sanity';
+import { GetImage, sanityClient } from '../../sanity';
 import Products from '../components/Products';
 import Posts from '../components/Posts';
 import CategoriesBanner from '../components/CategoriesBanner';
@@ -15,15 +15,16 @@ type IProps = {
 };
 
 const CategoryPage: NextPage<IProps> = ({ category }) => {
+  const imageProps = GetImage(category.mainImage);
   return (
     <>
       <Head>
         <title>{category.title}</title>
       </Head>
       <CategoriesBanner
-        altText={category.altText}
-        image={urlFor(category.bannerImage).url()!}
-        blur={category.bannerImage.asset.metadata.lqip}
+        altText={category.mainImage.altText}
+        image={imageProps!.src}
+        blur={category.mainImage.asset.metadata.lqip}
       />
       <div className='max-w-4xl mx-auto'>
         <Posts posts={category.posts} />
@@ -61,7 +62,7 @@ export type QueryCategoryExtended = ExtendedCategory & {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const query = `*[_type == 'category' && slug.current == $slug][0] {
         ...,
-        bannerImage {
+        mainImage {
           ...,
           asset->
         },

@@ -1,5 +1,5 @@
 import Image from 'next/future/image';
-import { urlFor } from '../../../sanity';
+import { GetImage, urlFor } from '../../../sanity';
 
 const PortableProduct = (props: IProps) => {
   const {
@@ -10,7 +10,7 @@ const PortableProduct = (props: IProps) => {
     },
   } = props;
 
-  const imageUrl = urlFor(mainImage).url()!;
+  const imageProps = GetImage(mainImage);
 
   // return <pre>{JSON.stringify(props, null, 2)}</pre>;
   return (
@@ -18,13 +18,15 @@ const PortableProduct = (props: IProps) => {
       <a href={href} target='_blank'>
         <div className='flex my-8 cursor-pointer border  rounded-lg'>
           <div className='w-36 h-36 rounded-l-lg overflow-hidden'>
-            <Image
-              width={144}
-              height={144}
-              className='w-full h-56 object-cover'
-              src={imageUrl}
-              alt={name + 'Bild'}
-            />
+            {imageProps && imageProps.src && (
+              <Image
+                width={144}
+                height={144}
+                className='w-full h-56 object-cover'
+                src={imageProps.src}
+                alt={name + 'Bild'}
+              />
+            )}
           </div>
           <div className='flex flex-col justify-between flex-1'>
             <div className='ml-4 text-3xl font-bold pt-2'>{name}</div>

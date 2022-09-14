@@ -1,5 +1,5 @@
 import Image from 'next/future/image';
-import { urlFor } from '../../../sanity';
+import { GetImage } from '../../../sanity';
 import NextLink from 'next/link';
 
 const PortablePost = (props: IProps) => {
@@ -7,20 +7,22 @@ const PortablePost = (props: IProps) => {
     reference: { title, mainImage, slug, shortDescription },
   } = props;
 
-  const imageUrl = urlFor(mainImage).url()!;
-  // return <pre>{JSON.stringify(props.reference, null, 2)}</pre>;
+  const imageProps = GetImage(mainImage);
+
   return (
     <>
       <NextLink href={slug.current}>
         <div className='flex my-8 cursor-pointer border  rounded-lg'>
           <div className='w-36 h-36 rounded-l-lg overflow-hidden'>
-            <Image
-              width={144}
-              height={144}
-              className='w-full h-56 object-cover'
-              src={imageUrl}
-              alt={title + 'Bild'}
-            />
+            {imageProps && imageProps.src && (
+              <Image
+                width={144}
+                height={144}
+                className='w-full h-56 object-cover'
+                src={imageProps.src}
+                alt={title + 'Bild'}
+              />
+            )}
           </div>
           <div className='ml-4 flex flex-col'>
             <div className=' text-3xl font-bold pt-2'>{title}</div>

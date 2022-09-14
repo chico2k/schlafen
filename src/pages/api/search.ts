@@ -13,6 +13,9 @@ const groqQuery = `*[_type == "post" || _type == "product" || _type == "category
     _id,
     _type,
     title,
+    mainImage{
+        asset->
+    },
     "slug": slug.current,
 }
 `

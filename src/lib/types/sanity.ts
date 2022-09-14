@@ -52,11 +52,11 @@ export interface Post extends SanityDocument {
   title: string;
 
   /**
-   * Short Description — `string`
+   * Description — `text`
    *
    *
    */
-  shortDescription: string;
+  description: string;
 
   /**
    * Slug — `slug`
@@ -77,11 +77,18 @@ export interface Post extends SanityDocument {
    *
    *
    */
-  mainImage?: {
+  mainImage: {
     _type: "image";
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
+
+    /**
+     * Alternative Text — `string`
+     *
+     *
+     */
+    altText: string;
   };
 
   /**
@@ -198,11 +205,18 @@ export interface Product extends SanityDocument {
    *
    *
    */
-  mainImage?: {
+  mainImage: {
     _type: "image";
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
+
+    /**
+     * Alternative Text — `string`
+     *
+     *
+     */
+    altText: string;
   };
 
   /**
@@ -265,23 +279,30 @@ export interface Category extends SanityDocument {
   description?: string;
 
   /**
-   * Alt Text for Image — `string`
+   * Main image — `image`
    *
    *
    */
-  altText: string;
-
-  /**
-   * Banner image — `image`
-   *
-   *
-   */
-  bannerImage: {
+  mainImage: {
     _type: "image";
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
+
+    /**
+     * Alternative Text — `string`
+     *
+     *
+     */
+    altText: string;
   };
+
+  /**
+   * Color for the homepage — `string`
+   *
+   *
+   */
+  color: "green" | "blue" | "orange" | "purple" | "pink";
 }
 
 export type BlockContent = Array<
@@ -291,6 +312,13 @@ export type BlockContent = Array<
       asset: SanityReference<SanityImageAsset>;
       crop?: SanityImageCrop;
       hotspot?: SanityImageHotspot;
+
+      /**
+       * Alternative Text — `string`
+       *
+       *
+       */
+      altText: string;
     }>
 >;
 
