@@ -1,10 +1,11 @@
-import Image from 'next/future/image';
-import { GetImage, urlFor } from '../../../sanity';
+import Image from 'next/image';
+import { GetImage } from '../../../sanity';
 
 const PortableProduct = (props: IProps) => {
   const {
     reference: {
-      name,
+      title,
+      description,
       mainImage,
       link: { href },
     },
@@ -16,23 +17,22 @@ const PortableProduct = (props: IProps) => {
   return (
     <>
       <a href={href} target='_blank'>
-        <div className='flex my-8 cursor-pointer border  rounded-lg'>
-          <div className='w-36 h-36 rounded-l-lg overflow-hidden'>
+        <div className='flex my-8 cursor-pointer rounded-lg border p-4'>
+          <div className='w-36 rounded-l-lg overflow-hidden'>
             {imageProps && imageProps.src && (
               <Image
                 width={144}
                 height={144}
+                objectFit='contain'
                 className='w-full h-56 object-cover'
                 src={imageProps.src}
                 alt={name + 'Bild'}
               />
             )}
           </div>
-          <div className='flex flex-col justify-between flex-1'>
-            <div className='ml-4 text-3xl font-bold pt-2'>{name}</div>
-            <div className='ml-4 text-xs mb-1 pr-2 pt-2 flex justify-end text-red-200'>
-              Affliate Link / Werbung{' '}
-            </div>
+          <div className='flex ml-4 justify-center flex-col  flex-1'>
+            <div className='ml-4 text-3xl font-bold pt-2'>{title}</div>
+            <div className='ml-4 mt-2 text-sm'>{description}</div>
           </div>
         </div>
       </a>
@@ -53,7 +53,8 @@ export interface Reference {
   _type: string;
   _updatedAt: string;
   link: Link;
-  name: string;
+  title: string;
+  description: string;
   slug: Slug;
   mainImage: MainImage;
 }

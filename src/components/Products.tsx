@@ -1,7 +1,7 @@
 import { Product } from '../lib/types/sanity';
 import Link from 'next/link';
 import Image from 'next/image';
-import { GetImage, urlFor } from '../../sanity';
+import { GetImage } from '../../sanity';
 import { ExtendedProduct } from '../lib/types/Products';
 import { CameraIcon } from '@heroicons/react/20/solid';
 import { cx } from '../lib/helper';

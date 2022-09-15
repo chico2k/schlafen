@@ -27,18 +27,17 @@ const CategoryLabel: React.FunctionComponent<{ categories?: Category[] }> = ({
   return (
     <div className='flex gap-x-3'>
       {categories?.length &&
-        categories
-          .slice(0, 3)
-          .map((category, index) => (
-            <span
-              className={cx(
-                'inline-block mt-5 text-xs font-medium tracking-wider uppercase ',
-                color[category.color] || 'text-pink-500'
-              )}
-            >
-              {category.title}
-            </span>
-          ))}
+        categories.slice(0, 3).map((category) => (
+          <span
+            key={category._id}
+            className={cx(
+              'inline-block mt-5 text-xs font-medium tracking-wider uppercase ',
+              color[category.color] || 'text-pink-500'
+            )}
+          >
+            {category.title}
+          </span>
+        ))}
     </div>
   );
 };
