@@ -82,7 +82,7 @@ const Post = ({ post }: Props) => {
           <p className='font-extralight text-sm'>
             Blog post by
             <span className='text-green-600'>
-              {JSON.stringify(author.name)}
+              {/* {JSON.stringify(author.name)} */}
             </span>{' '}
             - published at {new Date(post._createdAt).toLocaleString()}
           </p>
