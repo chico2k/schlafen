@@ -7,7 +7,7 @@ const RedirectComponent = () => {
   const router = useRouter();
   const query = router.query;
 
-  const { image, title } = query;
+  const { image, title, blur } = query;
 
   useEffect(() => {
     if (query.url) {
@@ -35,6 +35,7 @@ const RedirectComponent = () => {
                 className='aspect-video object-contain group-hover:scale-105 transition-transform duration-200 ease-in-out'
                 src={image as string}
                 alt=''
+                blurDataURL={blur as string}
               />
             )}
           </div>

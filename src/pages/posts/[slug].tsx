@@ -70,9 +70,9 @@ const Post = ({ post }: Props) => {
                 },
                 internalLink: (props: any) => {
                   if (props.reference._type === 'post')
-                    return <PortablePost {...props} />;
+                    return <PortablePost post={props.reference} />;
                   if (props.reference._type === 'product')
-                    return <PortableProduct {...props} />;
+                    return <PortableProduct product={props.reference} />;
                 },
               }}
             />
@@ -114,23 +114,26 @@ export const getStaticProps: GetStaticProps<{
   post: ExtendedPost;
 }> = async ({ params }) => {
   const query = `
-    *[_type == 'post' && slug.current == $slug][0]{
+  *[_type == 'post' && slug.current == $slug][0]{
+    ...,
+    author->,
+    mainImage {
+      asset->
+    },
+    body[]{
       ...,
-      author->,
-      mainImage {
-        asset->
-      },
-      body[]{
+      markDefs[]{
         ...,
-        markDefs[]{
+        _type == "internalLink" => {
           ...,
-          _type == "internalLink" => {
-            ...,
-             "reference": @.reference-> {...}
-         }
+          reference-> {
+          ...,
+          categories[]->
         }
-       },
+       }
       }
+     },
+    }
     `;
   const post = await sanityClient.fetch<ExtendedPost>(query, {
     slug: params?.slug,

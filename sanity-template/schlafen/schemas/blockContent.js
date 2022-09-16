@@ -12,6 +12,7 @@ export default {
   title: 'Block Content',
   name: 'blockContent',
   type: 'array',
+
   of: [
     {
       title: 'Block',
@@ -61,6 +62,12 @@ export default {
             name: 'internalLink',
             type: 'object',
             title: 'Internal link',
+            options: {
+              modal: {
+                type: 'fold', // 'popover' (default) | 'fullscreen' | 'fold'
+                width: 'large', // 'small' (default) | 'medium' | 'large' | 'full'
+              },
+            },
             fields: [
               {
                 name: 'reference',
@@ -94,6 +101,19 @@ export default {
           ],
         },
       ],
+    },
+
+    {
+      type: 'object',
+      name: 'bestProduct',
+      title: 'Best Product',
+      description: 'Added for the Best Product Section',
+      preview: {
+        select: {
+          'title': 'title',
+        },
+      },
+      fields: [{ name: 'street', type: 'string', title: 'Street name' }],
     },
   ],
 };

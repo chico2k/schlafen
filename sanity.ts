@@ -21,5 +21,14 @@ export const GetImage = (image: any, CustomImageBuilder = null) => {
   if (!imageProps) {
     return null;
   }
+
+
+
   return imageProps as UseNextSanityImageProps
+}
+
+export const sanityImageOrPlaceHolder = (imageProps: UseNextSanityImageProps | null) => {
+  if (!imageProps) return ""
+  if (!imageProps.src) return ""
+  return imageProps.src
 }

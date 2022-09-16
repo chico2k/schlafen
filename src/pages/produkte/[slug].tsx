@@ -1,13 +1,20 @@
 import { GetStaticProps } from 'next';
 import { sanityClient } from '../../../sanity';
+import { ExtendedPost } from '../../lib/types/Post';
 import { ExtendedProduct } from '../../lib/types/Products';
+import DetailProduktPage from '../../Produkt/Detail';
 
 interface Props {
   product: ExtendedProduct;
+  posts: ExtendedPost[];
 }
 
-export const ProductPage = ({ product }: Props) => {
-  return <div>{JSON.stringify(product)}</div>;
+export const ProductPage = ({ product, posts }: Props) => {
+  return (
+    <div>
+      <DetailProduktPage product={product} posts={posts} />
+    </div>
+  );
 };
 
 export async function getStaticPaths() {
@@ -33,18 +40,25 @@ export const getStaticProps = async ({
 }: {
   params: { slug: string };
 }) => {
-  const query = `*[_type == 'product' && slug.current == $slug][0]{
-        ...,
-        mainImage {
-            asset->
-          }
-        }`;
+  const query = ` *[_type == 'product' && slug.current == $slug][] {
+    "product" : {..., categories[]->},
+    "posts" : *[ _type == 'post' && references(^._id)][] {
+     ...,
+     author->,
+     categories[]->
+    }
+   }[0]
+ 
+ `;
 
-  const product = await sanityClient.fetch<ExtendedProduct[]>(query, {
+  const response = await sanityClient.fetch<{
+    product: ExtendedProduct[];
+    posts: ExtendedPost[];
+  }>(query, {
     slug: params?.slug,
   });
 
-  if (!product) {
+  if (!response.product) {
     return {
       notFound: true,
     };
@@ -52,7 +66,8 @@ export const getStaticProps = async ({
 
   return {
     props: {
-      product,
+      product: response.product,
+      posts: response.posts,
     },
   };
 };
