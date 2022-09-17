@@ -46,6 +46,7 @@ export default {
         maxLength: 96,
       },
     },
+
     {
       name: 'author',
       title: 'Author',
@@ -86,12 +87,21 @@ export default {
       title: 'Categories',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
+      validation: (Rule) => [
+        Rule.required().max(3).error('Categories is required - (max three)'),
+      ],
     },
     {
       name: 'products',
       title: 'Products',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'product' } }],
+    },
+    {
+      name: 'relatedPosts',
+      title: 'Related Posts',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'post' } }],
     },
     {
       name: 'publishedAt',

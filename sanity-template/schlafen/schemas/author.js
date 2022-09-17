@@ -21,14 +21,12 @@ export default {
         source: 'name',
         maxLength: 96,
       },
-      validation: (Rule) => [
-        Rule.required().max(200).error('A Slug is required'),
-      ],
+      validation: (Rule) => [Rule.required().error('A Slug is required')],
     },
   ],
-  preview: {
-    select: {
-      title: 'name',
-    },
-  },
+  // preview: {
+  //   select: {
+  //     title: 'name',
+  //   },
+  // },
 };

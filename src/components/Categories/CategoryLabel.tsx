@@ -1,5 +1,5 @@
-import { cx } from '../lib/helper';
-import { Category } from '../lib/types/sanity';
+import { cx } from '../../lib/helper';
+import { Category } from '../../lib/types/sanity';
 
 const CategoryLabel: React.FunctionComponent<{ categories?: Category[] }> = ({
   categories,

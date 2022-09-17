@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { sanityClient } from '../../sanity';
-import Categories from '../components/Categories';
+import Categories from '../components/Categories/Categories';
 import Products from '../components/Products';
-import Posts from '../components/Posts';
+import Posts from '../components/Post/Posts';
 import { Product, Category } from '../lib/types/sanity';
 import { ExtendedPost } from '../lib/types/Post';
 import { ExtendedProduct } from '../lib/types/Products';
@@ -22,12 +22,11 @@ export default function Home({ posts, products, categories }: Props) {
       </Head>
 
       {/* posts */}
-      <Posts posts={posts} />
+      <section className='container px-8 py-5 lg:py-8 mx-auto xl:px-5 max-w-screen-lg '>
+        <Posts posts={posts} />
+      </section>
       <Categories categories={categories} />
       <Products products={products} />
-      <div className='mt-16'>
-        <Posts posts={posts} />
-      </div>
     </div>
   );
 }

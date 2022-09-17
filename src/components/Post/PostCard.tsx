@@ -1,18 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { parseISO, format } from 'date-fns';
-import CategoryLabel from './CategoryLabel';
-import { cx } from '../lib/helper';
-import { GetImage } from '../../sanity';
+import CategoryLabel from '../Categories/CategoryLabel';
+import { cx } from '../../lib/helper';
+import { GetImage } from '../../../sanity';
 import { CameraIcon } from '@heroicons/react/20/solid';
-import { ExtendedPost } from '../lib/types/Post';
+import { ExtendedPost, RelatedPost } from '../../lib/types/Post';
 
-export default function PostList({
+export default function PostCard({
   post,
   aspect,
   sideBySide = false,
 }: {
-  post: Omit<ExtendedPost, 'products' | 'author'>;
+  post: ExtendedPost | RelatedPost;
   aspect: string;
   sideBySide?: boolean;
 }) {

@@ -5,7 +5,7 @@ import { GetImage } from '../../sanity';
 import { ExtendedProduct } from '../lib/types/Products';
 import { CameraIcon } from '@heroicons/react/20/solid';
 import { cx } from '../lib/helper';
-import CategoryLabel from './CategoryLabel';
+import CategoryLabel from './Categories/CategoryLabel';
 
 interface IProps {
   products: ExtendedProduct[];

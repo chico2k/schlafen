@@ -70,7 +70,7 @@ export interface Post extends SanityDocument {
    *
    *
    */
-  author: SanityReference<Author>;
+  author?: SanityReference<Author>;
 
   /**
    * Main image — `image`
@@ -111,6 +111,13 @@ export interface Post extends SanityDocument {
    *
    */
   products?: Array<SanityKeyedReference<Product>>;
+
+  /**
+   * Related Posts — `array`
+   *
+   *
+   */
+  relatedPosts?: Array<SanityKeyedReference<Post>>;
 
   /**
    * Published at — `datetime`
@@ -319,6 +326,15 @@ export type BlockContent = Array<
        *
        */
       altText: string;
+    }>
+  | SanityKeyed<{
+      _type: "bestProduct";
+      /**
+       * Street name — `string`
+       *
+       *
+       */
+      street?: string;
     }>
 >;
 

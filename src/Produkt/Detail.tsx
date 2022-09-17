@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { GetImage, sanityImageOrPlaceHolder } from '../../sanity';
 import PortableProductReview from '../components/Portable/PortableProductReview';
-import PostList from '../components/PostList';
+import PostCard from '../components/Post/PostCard';
 import { ExtendedPost } from '../lib/types/Post';
 import { ExtendedProduct } from '../lib/types/Products';
 
@@ -50,7 +50,7 @@ const DetailProduktPage: React.FunctionComponent<Props> = ({
             {posts.map((post) => {
               return (
                 <div key={product._id} className=''>
-                  <PostList post={post} aspect='aspect-square' />
+                  <PostCard post={post} aspect='aspect-square' />
                 </div>
               );
             })}

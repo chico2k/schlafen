@@ -1,12 +1,11 @@
 import { GetStaticProps, NextPage } from 'next';
 import { GetImage, sanityClient } from '../../sanity';
 import Products from '../components/Products';
-import Posts from '../components/Posts';
-import CategoriesBanner from '../components/CategoriesBanner';
-import { Post, Product, Category } from '../lib/types/sanity';
+import Posts from '../components/Post/Posts';
+import CategoriesBanner from '../components/Categories/CategoriesBanner';
+import { Category } from '../lib/types/sanity';
 import Head from 'next/head';
 import { ExtendedCategory } from '../lib/types/Category';
-import { json } from 'stream/consumers';
 import { ExtendedProduct } from '../lib/types/Products';
 import { ExtendedPost } from '../lib/types/Post';
 
