@@ -86,6 +86,7 @@ export default {
       name: 'categories',
       title: 'Categories',
       type: 'array',
+      codegen: { required: true },
       of: [{ type: 'reference', to: { type: 'category' } }],
       validation: (Rule) => [
         Rule.required().max(3).error('Categories is required - (max three)'),
@@ -98,10 +99,14 @@ export default {
       of: [{ type: 'reference', to: { type: 'product' } }],
     },
     {
+      codegen: { required: true },
       name: 'relatedPosts',
       title: 'Related Posts',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'post' } }],
+      validation: (Rule) => [
+        Rule.required().max(5).min(5).error('Five Related Posts are required'),
+      ],
     },
     {
       name: 'publishedAt',

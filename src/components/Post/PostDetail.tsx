@@ -7,7 +7,8 @@ import PortablePost from '../Portable/PortablePost';
 import PortableProduct from '../Portable/PortableProduct';
 import PortableText from 'react-portable-text';
 import Posts from './Posts';
-
+import TableOfContents, { parseOutline } from './PostTableContent';
+import slugify from 'slugify';
 interface Props {
   post: ExtendedPost;
 }
@@ -20,12 +21,12 @@ const PostDetail = ({ post }: Props) => {
         <title>{post.title} </title>
       </Head>
 
-      <div className='flex justify-center bg-gray-50'>
+      <div className='flex h-72 justify-center overflow-hidden  '>
         {imageProps && imageProps.src && (
           <Image
-            width={2000}
-            height={3000}
-            className='w-full h-56 object-cover max-w-3xl'
+            width={imageProps.width}
+            height={imageProps.height}
+            className='w-full object-cover max-w-4xl '
             src={imageProps?.src}
             alt={post.mainImage.altText || `${post.title} Bild`}
             blurDataURL={imageProps.blurDataURL}
@@ -33,22 +34,51 @@ const PostDetail = ({ post }: Props) => {
           />
         )}
       </div>
-      <article className='max-w-3xl mx-auto p-5'>
-        <h1 className='text-3xl font-bold my-5'>{post.title}</h1>
+      <article className='max-w-3xl mx-auto z-10 bg-white text-gray-600'>
+        <h1 className='text-5xl font-bold my-5 mb-8 p-5 text-gray-700 '>
+          {post.title}
+        </h1>
+        <div className='py-6 bg-gray-50 rounded-2xl'>
+          <TableOfContents outline={parseOutline(post.body)} level={1} />
+        </div>
 
-        <div className='mt-10'>
+        <div className='p-5 '>
           {post.body && (
             <PortableText
               dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
               projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
               content={post.body}
               serializers={{
-                h1: (props: any) => (
+                h1: (props: { children: string[] }) => (
                   <h1 className='text-3xl font-bold my-5' {...props} />
                 ),
-                h2: (props: any) => (
-                  <h2 className='text-2xl font-semibold my-5' {...props} />
-                ),
+                h2: (props: { children: string[] }) => {
+                  return (
+                    <h2
+                      className='text-2xl font-semibold my-5'
+                      {...props}
+                      id={slugify(props.children[0])}
+                    />
+                  );
+                },
+                h3: (props: { children: string[] }) => {
+                  return (
+                    <h2
+                      className='text-lg uppercase my-5'
+                      {...props}
+                      id={slugify(props.children[0])}
+                    />
+                  );
+                },
+                h4: (props: { children: string[] }) => {
+                  return (
+                    <h2
+                      className='text-base font-semibold my-5'
+                      {...props}
+                      id={slugify(props.children[0])}
+                    />
+                  );
+                },
                 li: ({ children }: any) => (
                   <li className='ml-12 list-disc'>{children}</li>
                 ),
