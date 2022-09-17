@@ -29,9 +29,9 @@ const CategoryLabel: React.FunctionComponent<{
   return (
     <div className='flex gap-x-3'>
       {categories &&
-        categories.map((category) => (
+        categories.map((category, index) => (
           <span
-            key={category._id}
+            key={category._id + index}
             className={cx(
               'inline-block font-medium tracking-wider uppercase ',
               color[category.color] || 'text-pink-500',

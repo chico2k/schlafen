@@ -1,20 +1,32 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { SerachResponse } from '../lib/types/Search';
 import { GetImage } from '../../sanity';
 import Image from 'next/future/image';
+import Router, { useRouter } from 'next/router';
 
-const Search = () => {
+const Search = ({
+  searchOpen,
+  setSearchOpen,
+}: {
+  searchOpen: boolean;
+  setSearchOpen: (s: boolean) => void;
+}) => {
   const [results, setResults] = useState<SerachResponse[] | undefined>(
     undefined
   );
 
-  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    return () => {
+      if (!searchOpen) setResults([]);
+    };
+  }, [searchOpen]);
+
   return (
     <>
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={setOpen}>
+      <Transition.Root show={searchOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={setSearchOpen}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -71,42 +83,15 @@ const Search = () => {
                       </div>
                     </div>
                     <div className='z-20'>
-                      {results && (
+                      {results && results?.length > 0 && (
                         <div className='bg-white w-full'>
-                          {results.map((r) => {
-                            const imageProps = GetImage(r.mainImage);
+                          {results.map((searchitem) => {
                             return (
-                              <>
-                                <div className='px-2 hover:bg-gray-50 currsor-pointer py-4 cursor-pointer mt-4 '>
-                                  <button className='w-full items-center flex'>
-                                    {imageProps && imageProps.src && (
-                                      <Image
-                                        width={300}
-                                        height={300}
-                                        className=' w-16 h-16 rounded-sm object-contain'
-                                        alt={`Bild von ${r.title}`}
-                                        src={imageProps.src}
-                                      />
-                                    )}
-                                    <div className='ml-4 flex flex-col  gap-y-2'>
-                                      <span className=' text-xl'>
-                                        {r.title}
-                                      </span>
-                                      <span className='max-w-min items-center rounded-full bg-green-50 px-3 py-0.5 text-sm font-medium text-green-800 '>
-                                        {r._type}
-                                      </span>
-                                    </div>
-                                  </button>
-                                </div>
-                                <div className='relative mt-2'>
-                                  <div
-                                    className='absolute inset-0 flex items-center'
-                                    aria-hidden='true'
-                                  >
-                                    <div className='w-full border-t border-gray-200' />
-                                  </div>
-                                </div>
-                              </>
+                              <SearchResultItem
+                                searchitem={searchitem}
+                                setResults={setResults}
+                                setSearchOpen={setSearchOpen}
+                              />
                             );
                           })}
                         </div>
@@ -117,9 +102,9 @@ const Search = () => {
                     <button
                       type='button'
                       className='inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm'
-                      onClick={() => setOpen(false)}
+                      onClick={() => setSearchOpen(false)}
                     >
-                      Go back to dashboard
+                      Suchen
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -133,3 +118,58 @@ const Search = () => {
 };
 
 export default Search;
+
+const SearchResultItem: React.FunctionComponent<{
+  searchitem: SerachResponse;
+  setResults: (searchResults: SerachResponse[]) => void;
+  setSearchOpen: (s: boolean) => void;
+}> = ({ searchitem, setResults, setSearchOpen }) => {
+  const imageProps = GetImage(searchitem.mainImage);
+  const router = useRouter();
+  const url =
+    searchitem._type == 'product'
+      ? `/produkte/${searchitem.slug}`
+      : searchitem._type === 'post'
+      ? `/posts/${searchitem.slug}`
+      : searchitem._type === 'category'
+      ? `/kategorie/${searchitem.slug}`
+      : '/';
+
+  const onClickHandler = () => {
+    setSearchOpen(false);
+    return router.push(url);
+  };
+
+  return (
+    <>
+      <div className='px-2 hover:bg-gray-50 currsor-pointer py-4 cursor-pointer mt-4 '>
+        <button
+          className='w-full items-center flex'
+          onClick={() => onClickHandler()}
+        >
+          {imageProps && imageProps.src && (
+            <Image
+              width={300}
+              height={300}
+              className=' w-16 h-16 rounded-sm object-contain'
+              alt={`Bild von ${searchitem.title}`}
+              src={imageProps.src}
+            />
+          )}
+          <div className='ml-4 flex flex-col  gap-y-2'>
+            <span className=' text-xl'>{searchitem.title}</span>
+            <span className='max-w-min items-center rounded-full bg-green-50 px-3 py-0.5 text-sm font-medium text-green-800 '>
+              {searchitem._type}
+            </span>
+          </div>
+        </button>
+      </div>
+
+      <div className='relative mt-2'>
+        <div className='absolute inset-0 flex items-center' aria-hidden='true'>
+          <div className='w-full border-t border-gray-200' />
+        </div>
+      </div>
+    </>
+  );
+};

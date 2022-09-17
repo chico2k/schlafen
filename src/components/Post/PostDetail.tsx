@@ -23,12 +23,12 @@ const PostDetail = ({ post }: Props) => {
         <title>{post.title} </title>
       </Head>
 
-      <div className='flex h-72 justify-center overflow-hidden  '>
+      <div className='flex h-96  mx-auto justify-center overflow-hidden  '>
         {imageProps && imageProps.src && (
           <Image
             width={imageProps.width}
             height={imageProps.height}
-            className='w-full object-cover max-w-4xl '
+            className='w-full object-cover'
             src={imageProps?.src}
             alt={post.mainImage.altText || `${post.title} Bild`}
             blurDataURL={imageProps.blurDataURL}
@@ -37,10 +37,10 @@ const PostDetail = ({ post }: Props) => {
         )}
       </div>
       <article className='max-w-3xl mx-auto z-10 bg-white text-gray-600'>
-        <h1 className='text-5xl font-bold mt-5  text-gray-700 '>
+        <h1 className='text-5xl px-5 font-bold mt-5  text-gray-700 '>
           {post.title}
         </h1>
-        <div className='mb-8 text-base mt-8 '>
+        <div className='mb-8 px-5 text-base mt-8 '>
           <CategoryLabel categories={post.categories} className='mr-3' />
         </div>
         <div className='py-6 bg-gray-50 rounded-2xl'>
