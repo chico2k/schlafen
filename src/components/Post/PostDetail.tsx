@@ -88,9 +88,10 @@ const PostDetail = ({ post }: Props) => {
           </p>
         </div>
         {/* Related Post Section */}
-        {/* <div className='mt-16'>
+        <div className='mt-16 '>
+          <h3 className='text-3xl mb-16 uppercase'>Weiterführende Einträge</h3>
           {post.relatedPosts && <Posts posts={post.relatedPosts} />}
-        </div> */}
+        </div>
       </article>
     </>
   );
