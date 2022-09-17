@@ -9,6 +9,8 @@ import PortableText from 'react-portable-text';
 import Posts from './Posts';
 import TableOfContents, { parseOutline } from './PostTableContent';
 import slugify from 'slugify';
+import Categories from '../Categories/Categories';
+import CategoryLabel from '../Categories/CategoryLabel';
 interface Props {
   post: ExtendedPost;
 }
@@ -35,9 +37,12 @@ const PostDetail = ({ post }: Props) => {
         )}
       </div>
       <article className='max-w-3xl mx-auto z-10 bg-white text-gray-600'>
-        <h1 className='text-5xl font-bold my-5 mb-8 p-5 text-gray-700 '>
+        <h1 className='text-5xl font-bold mt-5  text-gray-700 '>
           {post.title}
         </h1>
+        <div className='mb-8 text-base mt-8 '>
+          <CategoryLabel categories={post.categories} className='mr-3' />
+        </div>
         <div className='py-6 bg-gray-50 rounded-2xl'>
           <TableOfContents outline={parseOutline(post.body)} level={1} />
         </div>
@@ -108,7 +113,7 @@ const PostDetail = ({ post }: Props) => {
             />
           )}
         </div>
-        <div className='mt-2 flex items-center space-x-2'>
+        <div className='mt-2 flex text-3xl  items-center space-x-2'>
           <p className='font-extralight text-sm'>
             Blog post by
             <span className='text-green-600'>
@@ -118,10 +123,14 @@ const PostDetail = ({ post }: Props) => {
           </p>
         </div>
         {/* Related Post Section */}
-        <div className='mt-16 '>
-          <h3 className='text-3xl mb-16 uppercase'>Weiterführende Einträge</h3>
-          {post.relatedPosts && <Posts posts={post.relatedPosts} />}
-        </div>
+        {post.relatedPosts && (
+          <div className='mt-16 '>
+            <h3 className='text-3xl mb-16 uppercase'>
+              Weiterführende Einträge
+            </h3>
+            <Posts posts={post.relatedPosts} />
+          </div>
+        )}
       </article>
     </>
   );

@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<{
   *[_type == 'post' && slug.current == $slug][0]{
     ...,
     author->,
-    categories->,
+    categories[]->,
     relatedPosts[]-> {..., categories[]->},
     mainImage {
       asset->

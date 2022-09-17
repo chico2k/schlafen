@@ -54,7 +54,10 @@ export default function PostCard({
           </Link>
         </div>
         <div className={cx('', sideBySide ? 'ml-6' : '')}>
-          <CategoryLabel categories={post.categories} />
+          <CategoryLabel
+            categories={post.categories}
+            className='text-sm mt-2'
+          />
 
           <h2 className='mt-2 text-xl font-semibold tracking-normal text-brand-primary'>
             <Link href={`/post/${post.slug.current}`}>
