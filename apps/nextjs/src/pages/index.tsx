@@ -1,93 +1,14 @@
-import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import NextImage from "next/image";
 import Link from "next/link";
-import { signIn, signOut } from "next-auth/react";
+
+import { urlFor } from "@acme/sanity";
 
 import { api, type RouterOutputs } from "~/utils/api";
 
-const PostCard: React.FC<{
-  post: RouterOutputs["post"]["all"][number];
-  onPostDelete?: () => void;
-}> = ({ post, onPostDelete }) => {
-  return (
-    <div className="flex flex-row rounded-lg bg-white/10 p-4 transition-all hover:scale-[101%]">
-      <div className="flex-grow">
-        <h2 className="text-2xl font-bold text-pink-400">{post.title}</h2>
-        <p className="mt-2 text-sm">{post.content}</p>
-      </div>
-      <div>
-        <span
-          className="cursor-pointer text-sm font-bold uppercase text-pink-400"
-          onClick={onPostDelete}
-        >
-          Delete
-        </span>
-      </div>
-    </div>
-  );
-};
-
-const CreatePostForm: React.FC = () => {
-  const utils = api.useContext();
-
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  const { mutate, error } = api.post.create.useMutation({
-    async onSuccess() {
-      setTitle("");
-      setContent("");
-      await utils.post.all.invalidate();
-    },
-  });
-
-  return (
-    <div className="flex w-full max-w-2xl flex-col p-4">
-      <input
-        className="mb-2 rounded bg-white/10 p-2 text-white"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-      {error?.data?.zodError?.fieldErrors.title && (
-        <span className="mb-2 text-red-500">
-          {error.data.zodError.fieldErrors.title}
-        </span>
-      )}
-      <Link href="/yoo">Hello</Link>
-      <input
-        className="mb-2 rounded bg-white/10 p-2 text-white"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Content"
-      />
-      {error?.data?.zodError?.fieldErrors.content && (
-        <span className="mb-2 text-red-500">
-          {error.data.zodError.fieldErrors.content}
-        </span>
-      )}
-      <button
-        className="rounded bg-pink-400 p-2 font-bold"
-        onClick={() => {
-          mutate({
-            title,
-            content,
-          });
-        }}
-      >
-        Create
-      </button>
-    </div>
-  );
-};
-
 const Home: NextPage = () => {
-  const postQuery = api.post.all.useQuery();
-
-  const deletePostMutation = api.post.delete.useMutation({
-    onSettled: () => postQuery.refetch(),
-  });
+  const { error, isLoading, data } = api.post.all.useQuery();
 
   return (
     <>
@@ -99,35 +20,18 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         <div className="container mt-12 flex flex-col items-center justify-center gap-4 px-4 py-8">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-pink-400">T3</span> Turbo
+            Create <span className="text-pink-400">T3</span> Turbo with{" "}
+            <span className="text-pink-400">Sanity </span>
           </h1>
-          <AuthShowcase />
-
-          <CreatePostForm />
-
-          {postQuery.data ? (
-            <div className="w-full max-w-2xl">
-              {postQuery.data?.length === 0 ? (
-                <span>There are no posts!</span>
-              ) : (
-                <div className="flex h-[40vh] justify-center overflow-y-scroll px-4 text-2xl">
-                  <div className="flex w-full flex-col gap-4">
-                    {postQuery.data?.map((p) => {
-                      return (
-                        <PostCard
-                          key={p.id}
-                          post={p}
-                          onPostDelete={() => deletePostMutation.mutate(p.id)}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+          <div>
+            {isLoading && <div>Loading...</div>}
+            {error && <div>Error in fetching data...</div>}
+            <div className="grid grid-cols-2 gap-4">
+              {data?.map((post) => {
+                return <PostCard key={post._id} {...post} />;
+              })}
             </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+          </div>
         </div>
       </main>
     </>
@@ -136,28 +40,47 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const AuthShowcase: React.FC = () => {
-  const { data: session } = api.auth.getSession.useQuery();
-
-  const { data: secretMessage } = api.auth.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: !!session?.user },
-  );
-
+const PostCard = (post: RouterOutputs["post"]["all"][number]) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      {session?.user && (
-        <p className="text-center text-2xl text-white">
-          {session && <span>Logged in as {session?.user?.name}</span>}
-          {secretMessage && <span> - {secretMessage}</span>}
+    <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+      <a href="#">
+        <NextImage
+          className="h-48 rounded-t-lg object-cover"
+          src={urlFor(post.mainImage).url()}
+          alt=""
+          width={300}
+          height={100}
+        />
+      </a>
+      <div className="p-5">
+        <a href="#">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {post.title}
+          </h5>
+        </a>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          {post.slug.current}
         </p>
-      )}
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={session ? () => void signOut() : () => void signIn()}
-      >
-        {session ? "Sign out" : "Sign in"}
-      </button>
+        <Link
+          href={`/${post.slug.current}`}
+          className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Read more
+          <svg
+            aria-hidden="true"
+            className="-mr-1 ml-2 h-4 w-4"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </Link>
+      </div>
     </div>
   );
 };
