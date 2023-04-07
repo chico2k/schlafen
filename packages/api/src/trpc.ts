@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1)
@@ -22,6 +23,7 @@ import { client } from "@acme/sanity";
  * processing a request
  *
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 type CreateContextOptions = {};
 
 /**
@@ -33,7 +35,7 @@ type CreateContextOptions = {};
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+const createInnerTRPCContext = (_opts: CreateContextOptions) => {
   return {
     sanity: client,
   };
@@ -44,7 +46,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
 
   return createInnerTRPCContext({});

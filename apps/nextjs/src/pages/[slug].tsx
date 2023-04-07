@@ -6,7 +6,7 @@ import Image from "next/image";
 import { generateSSGHelper } from "@acme/api";
 import { urlFor } from "@acme/sanity";
 
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
 const PostDetailPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
